@@ -1,42 +1,63 @@
+# 🎧 Audio Frequency Analysis — Tutorial & Setup Guide
 
-### 🔬 Code Breakdown
-
-#### `windowed = data * np.hanning(len(data))`
-
-* This applies a **Hann window** to your audio signal.
-* Why? It smooths the edges of the signal so the FFT doesn't produce **spectral leakage** (false peaks caused by sharp cutoffs).
-* `np.hanning(...)` returns an array of the same length as `data`, shaped like a bell curve that tapers to zero at the edges.
-
-✅ **Effect:** Reduces noise and improves accuracy of the FFT.
+This project helps you analyze audio using Python by extracting frequency components from a signal using the Fast Fourier Transform (FFT). It also includes a setup script for easy environment management.
 
 ---
 
-#### `mag = np.abs(np.fft.rfft(windowed))`
+## 🔧 Project Setup
 
-* This performs a **real-valued Fast Fourier Transform**:
+Use the `install_scripts.sh` script to set up your Python environment.
 
-  * `np.fft.rfft(...)` gives you the **frequency spectrum** from 0 Hz up to the Nyquist frequency (half the sample rate).
-  * The result is complex numbers (real + imaginary parts).
-* `np.abs(...)` takes the magnitude (length) of each complex number → this represents the **power (or intensity)** of each frequency.
+### 🔍 What `install_scripts.sh` Does
 
-✅ **Effect:** Now you have an array `mag` that tells you **how strong each frequency is**.
+The `install_scripts.sh` script automates the setup of a Python virtual environment for your project. Specifically, it:
 
----
+- ✅ Creates a virtual environment (default name: `venv`, or a custom name you pass as an argument)
+- ⚙️ Activates the environment
+- 📦 Installs dependencies listed in `requirements.txt` (if the file exists)
+- 📄 Freezes and saves exact package versions to `locked_requirements.txt` inside the virtual environment for reproducibility
 
-#### `freqs = np.fft.rfftfreq(len(windowed), d=1/sr)`
-
-* This creates an array of **frequency values** (in Hz) that line up with each value in `mag`.
-* `len(windowed)` → how many samples you're transforming
-* `d=1/sr` → the spacing between samples (inverse of sample rate)
-
-✅ **Effect:** Now you know that `mag[i]` corresponds to the frequency `freqs[i]`
+This helps ensure a consistent setup across different machines and team members.
 
 ---
 
-### 📊 Summary
+## 🔬 Code Breakdown
+
+### `windowed = data * np.hanning(len(data))`
+
+Applies a Hann window to the signal to reduce spectral leakage before performing the FFT.
+
+---
+
+### `mag = np.abs(np.fft.rfft(windowed))`
+
+Computes the magnitude spectrum of the real-valued FFT result.
+
+---
+
+### `freqs = np.fft.rfftfreq(len(windowed), d=1/sr)`
+
+Generates the frequency axis corresponding to each FFT bin.
+
+---
+
+## 📊 Summary
 
 | Variable   | Meaning                                         |
 | ---------- | ----------------------------------------------- |
 | `windowed` | Smoothed audio waveform                         |
 | `mag`      | Strength of each frequency component            |
 | `freqs`    | Actual frequencies in Hz (e.g., 82.4 Hz for E2) |
+
+---
+
+## 🚀 Example: Visualize the Spectrum
+
+```python
+import matplotlib.pyplot as plt
+
+plt.plot(freqs, mag)
+plt.xlabel("Frequency (Hz)")
+plt.ylabel("Magnitude")
+plt.title("Frequency Spectrum")
+plt.show()
