@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import soundfile as sf
 
 # ───── Load WAV file ─────
-filename = "Numpy/detuned.wav"  # change this to your WAV file
+filename = "detuned.wav"  # change this to your WAV file
 data, sr = sf.read(filename, dtype='float32')
 if data.ndim > 1:
     data = data.mean(axis=1)  # stereo → mono
