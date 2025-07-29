@@ -8,7 +8,7 @@ This project helps you analyze audio using Python by extracting frequency compon
 
 Use the `install_scripts.sh` script to set up your Python environment.
 
-### 🔍 What `install_scripts.sh` Does
+### 🔍 What `create_myvnv.sh` Does
 
 The `install_scripts.sh` script automates the setup of a Python virtual environment for your project. Specifically, it:
 
